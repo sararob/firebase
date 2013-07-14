@@ -9,10 +9,12 @@
 <div id='messagesDiv'></div>
 <input type='text' id='nameInput' placeholder='Name'>
 <input type='text' id='messageInput' placeholder='Message...'>
+<div id='fireDiv'></div>
 <script type='text/javascript'>
 
   // Get a reference to the root of the chat data.
   var messagesRef = new Firebase('https://chat-example.firebaseio-demo.com/');
+  var dataRef = new Firebase("https://saras-firebase.firebaseio.com");
 
   // When the user presses enter on the message input, write the message to firebase.
   $('#messageInput').keypress(function (e) {
@@ -23,6 +25,12 @@
       $('#messageInput').val('');
     }
   });
+
+  //Enter data into saras-firebase
+  dataRef.set("I am now writing even more data into Firebase! This is super cool!");
+  dataRef.on('child_added'), function(snapshot) {
+      //Code here to display what was added
+  }
 
   // Add a callback that is triggered for each chat message.
   messagesRef.on('child_added', function (snapshot) {
