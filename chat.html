@@ -4,7 +4,7 @@
   <script type="text/javascript" src="https://cdn.firebase.com/v0/firebase.js"></script>
   <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
   <link rel="stylesheet" type="text/css" href="https://www.firebase.com/css/example.css">
-    <link rel="stylesheet" type="text/css" href="chat.css.scss">
+    <link rel="stylesheet" type="text/css" href="chat.css">
 </head>
 <body>
 <h1>DevChat</h1>
@@ -38,6 +38,7 @@
       if (e.keyCode == 13) {
           var topic = $('#topicInput').val();
           topicRef.push({topic: topic});
+          topicRef.child('')
           $('#topicInput').val('');
       }
   })
@@ -45,7 +46,8 @@
   // Callback that displays the new topic
   topicRef.on('child_added', function (snapshot) {
       var chat = snapshot.val();
-      $('<div>').prepend($('<em/>').text(chat.topic)).appendTo($('#topicDiv'));
+      $('<div>').attr('class', 'topicChat').prepend($('<h3/>').text(chat.topic)).appendTo($('#topicDiv'));
+//      $('.topicChat').prepend($('<input/>').attr('type','text'))
   });
 
   // Add a callback that is triggered for each chat message.

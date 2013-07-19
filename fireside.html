@@ -1,0 +1,90 @@
+<html>
+<head>
+    <title>Fireside</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script type="text/javascript" src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+    <link rel="stylesheet" type="text/css" href="fireside.css">
+</head>
+<body>
+<script src="js/bootstrap.min.js"></script>
+<h1 id='header'>Fireside - Firebase Real-time Customer Support</h1>
+
+ <div id='question-container'>
+    <div id='questionInputs'>
+        <p>Ask a Question</p>
+        <input type='text' id='nameInput' placeholder='Name'>
+        <input type='text' id='firebaseInput' placeholder='Your Firebase (optional)'>
+        <br><br>
+        <input type='text' id='questionInput' placeholder='Question'>
+    </div>
+    <div id='questionsDiv'></div><br>
+</div>
+
+    <div id="firebase-tweets">
+        <a class="twitter-timeline" href="https://twitter.com/Firebase" data-widget-id="358032795181912065">Tweets by @Firebase</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+
+    <script type="text/javascript">
+    //Create references to the question data
+    var fbaseRef = new Firebase("fireside.firebaseIO.com/");
+    var questionRef = fbaseRef.child('questions');
+
+    //Store the last 10 questions in a variable
+    var questionQuery = questionRef.limit(10);
+
+    //When the user presses enter, write their name and question data to the firebase... and validate fields
+    $('#questionInput').keypress(function (e) {
+        if(e.keyCode == 13) {
+            var name = $('#nameInput').val();
+            var fbase = $('#firebaseInput').val();
+            var question = $('#questionInput').val();
+            var id = encodeURIComponent($('#questionInput').val());
+            questionRef.push({name:name, firebase: fbase, question:question, id: id, resolved: false});
+            $('#firebaseInput').val('');
+            $('#questionInput').val('');
+        }
+    });
+
+    //Callback that displays the new question with a reply field
+    questionRef.on('child_added', function (snapshot) {
+        var q = snapshot.val();
+        $('<div/>').text(q.question).attr({'id': q.id, 'class': 'question'}).appendTo($('#questionsDiv'));
+        $('<input/>').attr({'id':'replyTo' + q.id, 'type':'text', 'placeholder':'Add an answer', 'class':'replyTo'}).appendTo($('#questionsDiv'));
+        $('<button/>').attr({'id': 'button' + q.id, 'class': 'btn'}).html('Mark Resolved').appendTo($('#questionsDiv'));
+        $('<hr/>').appendTo('#questionsDiv');
+//        $('.replyTo').keypress(function (e) {
+//            if(e.keyCode == 13) {
+//                var text = $('#replyTo' + q.id).val();
+//                questionRef.child('reply').set(text);
+//                $('#replyTo' + q.id).val('');
+//            }
+//        });
+        $('.btn').on('click', function (e) {
+            $(this).attr('disabled', true);
+        });
+    });
+
+    //Count the number of questions
+
+
+//    //Write reply data to the firebase
+//    $('#replyInput').keypress(function (e) {
+//        if(e.keyCode == 13) {
+//            var text = $('#replyInput').val();
+//            questionRef.child('replies').set(text);
+//            $('#replyInput').val('');
+//        }
+//    })
+//
+//    //Callback that displays new replies nested under a given question
+//    replyRef.on('child_added', function (snapshot) {
+//        var reply = snapshot.val();
+//        $('<div/>').text(reply.text).appendTo($('#questionsDiv'));
+//    })
+
+
+</script>
+</body>
+</html>

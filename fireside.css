@@ -1,0 +1,77 @@
+@font-face {
+    font-family: proximaNovaRegular;
+    src: url('ProximaNovaRegular.otf');
+}
+
+body {
+    background-color: #f4f4f4;
+    font-family: proximaNovaRegular;
+}
+
+
+#header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+
+#questionsDiv {
+
+}
+
+#questionsDiv, #questionInputs {
+    border: 1px solid #eaeaea;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: white;
+}
+
+#questionInputs {
+    margin-bottom: 30px;
+}
+
+#questionInputs p {
+    margin-top: 5px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#nameInput, #firebaseInput {
+
+}
+
+.question {
+    margin: 10px 0px;
+    font-weight: bold;
+}
+
+#firebase-tweets {
+   display: inline-block;
+   float: right;
+   margin: 0px 60px 0px 0px;
+}
+
+#twitter-widget-0 {
+   width: 400px;
+}
+
+hr {
+    margin: 15px 0px;
+}
+
+#question-container {
+    float: left;
+    margin-left: 60px;
+    display: inline-block;
+    min-width: 700px;
+}
+
+#firebaseInput {
+    width: 140px;
+    margin-left: 20px;
+}
+
+#questionInput {
+    width: 291px;
+}
+
